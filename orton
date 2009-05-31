@@ -1,0 +1,56 @@
+#!/usr/bin/python
+# -*- coding: utf-8
+#+
+# This script is a GIMP plugin that simulates a Michael Orton effect
+# as described on page 77 of the June 2009 issue of Australian PC User
+# magazine.
+#
+# Written 2009 May 31 by Lawrence D'Oliveiro <ldo@geek-central.gen.nz>.
+#-
+
+import gimpfu
+from gimpfu import \
+	gimp, \
+	pdb
+
+def do_effect(the_image, radius) :
+	pdb.gimp_image_undo_group_start(the_image)
+	the_layer = pdb.gimp_layer_copy(pdb.gimp_image_get_active_layer(the_image), False)
+	pdb.gimp_image_add_layer(the_image, the_layer, -1)
+	pdb.gimp_layer_set_mode(the_layer, gimpfu.SCREEN_MODE)
+	pdb.gimp_image_merge_down(the_image, the_layer, gimpfu.CLIP_TO_BOTTOM_LAYER)
+	the_layer = pdb.gimp_layer_copy(pdb.gimp_image_get_active_layer(the_image), False)
+	pdb.gimp_image_add_layer(the_image, the_layer, -1)
+	pdb.plug_in_gauss_rle(the_image, the_layer, radius, True, True)
+	pdb.gimp_layer_set_mode(the_layer, gimpfu.MULTIPLY_MODE)
+	pdb.gimp_image_merge_down(the_image, the_layer, gimpfu.CLIP_TO_BOTTOM_LAYER)
+	pdb.gimp_image_undo_group_end(the_image)
+#end do_effect
+
+#+
+# Mainline
+#-
+
+gimpfu.register \
+  (
+	proc_name = "python_fu_orton",
+	blurb = "Ethereal selective blur in the style of photos by Michael Orton",
+	help =
+		"Works on the whole image (ignores selection). Based on a description"
+		" in the June 2009 issue of Australian “PC User” magazine.",
+	author = "Lawrence D'Oliveiro",
+	copyright = "©2009 by Lawrence D’Oliveiro",
+	date = "2009 May 31",
+	label = "Orton...",
+	imagetypes = "RGB*, GRAY*", # same as Gaussian blur
+	params =
+		[
+			(gimpfu.PF_IMAGE, "image", "Input image", None),
+			(gimpfu.PF_FLOAT, "radius", "Blur radius", 6.0),
+		],
+	results = [],
+	function = do_effect,
+	menu = "<Image>/Filters/Blur",
+  )
+gimpfu.main()
+
