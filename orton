@@ -5,12 +5,11 @@
 # as described on page 77 of the June 2009 issue of Australian PC User
 # magazine.
 #
-# Written 2009 May 31 by Lawrence D'Oliveiro <ldo@geek-central.gen.nz>.
+# Written by Lawrence D'Oliveiro <ldo@geek-central.gen.nz>.
 #-
 
 import gimpfu
 from gimpfu import \
-	gimp, \
 	pdb
 
 def do_effect(the_image, radius) :
@@ -26,10 +25,6 @@ def do_effect(the_image, radius) :
 	pdb.gimp_image_merge_down(the_image, the_layer, gimpfu.CLIP_TO_BOTTOM_LAYER)
 	pdb.gimp_image_undo_group_end(the_image)
 #end do_effect
-
-#+
-# Mainline
-#-
 
 gimpfu.register \
   (
