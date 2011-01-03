@@ -1,0 +1,85 @@
+#!/usr/bin/python
+# -*- coding: utf-8
+#+
+# This script is a GIMP plugin that generates a "brushed metal" pattern.
+#
+# Written by Lawrence D'Oliveiro <ldo@geek-central.gen.nz>.
+#-
+
+import gimpfu
+from gimpfu import \
+    pdb
+
+def do_effect(the_image, the_drawable) :
+    pdb.gimp_image_undo_group_start(the_image)
+    the_layer = pdb.gimp_layer_new \
+      (
+        the_image, # image
+        pdb.gimp_drawable_width(the_drawable), # width
+        pdb.gimp_drawable_height(the_drawable), # height
+        gimpfu.RGB_IMAGE, # type
+        "Brushed Metal", # name
+        100, # opacity
+        gimpfu.NORMAL_MODE # mode
+      )
+    pdb.gimp_image_add_layer(the_image, the_layer, -1)
+    pdb.plug_in_hsv_noise \
+      (
+        the_image, # image
+        the_layer, # drawable
+        1, # holdness
+        0, # hue_distance
+        0, # saturation_distance
+        226 # value_distance
+      )
+    pdb.gimp_levels \
+      (
+        the_layer, # drawable
+        gimpfu.HISTOGRAM_VALUE, # channel
+        0, # low_input
+        0, # high_input
+        1.0, # gamma
+        64, # low_output
+        192 # high_output
+      )
+    pdb.plug_in_mblur \
+      (
+        the_image, # image
+        the_layer, # drawable
+        0, # type = linear
+        39, # length
+        0, # angle
+        0, # center_x,  not relevant for linear blur
+        0 # center_y,  not relevant for linear blur
+      )
+    pdb.plug_in_unsharp_mask \
+      (
+        the_image, # image
+        the_layer, # drawable
+        46, # radius
+        1, # amount
+        0 # threshold
+      )
+    pdb.gimp_image_undo_group_end(the_image)
+#end do_effect
+
+gimpfu.register \
+  (
+    proc_name = "python_fu_brushed_metal",
+    blurb = "Generate a brushed-metal texture",
+    help = "Generates a new image layer filled with the texture.",
+    author = "Lawrence D'Oliveiro",
+    copyright = "©2011 by Lawrence D’Oliveiro",
+    date = "2011 January 3",
+    label = "Brushed Metal",
+    imagetypes = "RGB*, GRAY*", # same as Gaussian blur
+    params =
+        [
+            (gimpfu.PF_IMAGE, "image", "Input image", None),
+            (gimpfu.PF_DRAWABLE, "drawable", "Input Drawable", None),
+        ],
+    results = [],
+    function = do_effect,
+    menu = "<Image>/Filters/Render",
+  )
+gimpfu.main()
