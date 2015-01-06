@@ -16,7 +16,7 @@ from gimpfu import \
 def do_effect(the_image, the_drawable) :
     k = 0.15
     border_width = int(round(the_drawable.width * k))
-    border_height = int(round(the_drawable.height * k)) 
+    border_height = int(round(the_drawable.height * k))
     pdb.gimp_image_undo_group_start(the_image)
     pdb.gimp_selection_all(the_image)
     pdb.gimp_rect_select \
