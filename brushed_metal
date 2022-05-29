@@ -11,24 +11,25 @@
 import libgimp2
 from libgimp2 import \
     GIMP, \
-    pdb
+    pdb, \
+    pdb1, \
+    pdbpi
 
 def do_effect(the_image, the_drawable) :
     pdb.gimp_image_undo_group_start(the_image)
-    the_layer, = pdb.gimp_layer_new \
+    the_layer = pdb1.gimp_layer_new \
       (
         the_image, # image
-        pdb.gimp_drawable_width(the_drawable)[0], # width
-        pdb.gimp_drawable_height(the_drawable)[0], # height
+        pdb1.gimp_drawable_width(the_drawable), # width
+        pdb1.gimp_drawable_height(the_drawable), # height
         GIMP.RGB_IMAGE, # type
         "Brushed Metal", # name
         100, # opacity
         GIMP.LAYER_MODE_NORMAL # mode
       )
     pdb.gimp_image_add_layer(the_image, the_layer, -1)
-    pdb.plug_in_hsv_noise \
+    pdbpi.plug_in_hsv_noise \
       (
-        GIMP.RUN_NONINTERACTIVE,
         the_image, # image
         the_layer, # drawable
         1, # holdness
@@ -46,9 +47,8 @@ def do_effect(the_image, the_drawable) :
         64, # low_output
         192 # high_output
       )
-    pdb.plug_in_mblur \
+    pdbpi.plug_in_mblur \
       (
-        GIMP.RUN_NONINTERACTIVE,
         the_image, # image
         the_layer, # drawable
         0, # type = linear
@@ -57,9 +57,8 @@ def do_effect(the_image, the_drawable) :
         0, # center_x,  not relevant for linear blur
         0 # center_y,  not relevant for linear blur
       )
-    pdb.plug_in_unsharp_mask \
+    pdbpi.plug_in_unsharp_mask \
       (
-        GIMP.RUN_NONINTERACTIVE,
         the_image, # image
         the_layer, # drawable
         46, # radius

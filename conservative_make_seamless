@@ -13,12 +13,14 @@
 import libgimp2
 from libgimp2 import \
     GIMP, \
-    pdb
+    pdb, \
+    pdb1, \
+    pdbpi
 
 def do_effect(the_image, the_drawable) :
     k = 0.15
-    drawable_width = pdb.gimp_drawable_width(the_drawable)[0]
-    drawable_height = pdb.gimp_drawable_height(the_drawable)[0]
+    drawable_width = pdb1.gimp_drawable_width(the_drawable)
+    drawable_height = pdb1.gimp_drawable_height(the_drawable)
     border_width = round(drawable_width * k)
     border_height = round(drawable_height * k)
     offsets = pdb.gimp_drawable_offsets(the_drawable)
@@ -46,7 +48,7 @@ def do_effect(the_image, the_drawable) :
         True, # feather
         round((border_width + border_height) / 2) # feather_radius
       )
-    pdb.plug_in_make_seamless(GIMP.RUN_NONINTERACTIVE, the_image, the_drawable)
+    pdbpi.plug_in_make_seamless(the_image, the_drawable)
     pdb.gimp_selection_none(the_image)
     pdb.gimp_image_undo_group_end(the_image)
 #end do_effect
