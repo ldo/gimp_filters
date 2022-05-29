@@ -1,68 +1,71 @@
-#!/usr/bin/python
-# -*- coding: utf-8
+#!/usr/bin/python3
 #+
 # Implementation of refinement on top of basic Make Seamless filter as
 # described by Bowie J Poag here
 # <http://www.mail-archive.com/gimp-developer@lists.xcf.berkeley.edu/msg06649.html>.
 #
-# Written by Lawrence D'Oliveiro <ldo@geek-central.gen.nz>.
+# Copyright 2010 by Lawrence D'Oliveiro <ldo@geek-central.gen.nz>. This
+# script is licensed CC0
+# <https://creativecommons.org/publicdomain/zero/1.0/>; do with it
+# what you will.
 #-
 
-from __future__ import division
-import gimpfu
-from gimpfu import \
+import libgimp2
+from libgimp2 import \
+    GIMP, \
     pdb
 
 def do_effect(the_image, the_drawable) :
     k = 0.15
-    border_width = int(round(the_drawable.width * k))
-    border_height = int(round(the_drawable.height * k))
+    drawable_width = pdb.gimp_drawable_width(the_drawable)[0]
+    drawable_height = pdb.gimp_drawable_height(the_drawable)[0]
+    border_width = round(drawable_width * k)
+    border_height = round(drawable_height * k)
+    offsets = pdb.gimp_drawable_offsets(the_drawable)
     pdb.gimp_image_undo_group_start(the_image)
     pdb.gimp_selection_all(the_image)
     pdb.gimp_rect_select \
       (
         the_image, # image
-        the_drawable.offsets[0], # x
-        the_drawable.offsets[1], # y
-        the_drawable.width, # width
-        the_drawable.height, # height
-        gimpfu.CHANNEL_OP_REPLACE, # operation
+        offsets[0], # x
+        offsets[1], # y
+        drawable_width, # width
+        drawable_height, # height
+        GIMP.CHANNEL_OP_REPLACE, # operation
         False, # feather, unimportant
         0 # feather_radius
       )
     pdb.gimp_rect_select \
       (
         the_image, # image
-        the_drawable.offsets[0] + border_width, # x
-        the_drawable.offsets[1] + border_height, # y
-        the_drawable.width - 2 * border_width, # width
-        the_drawable.height - 2 * border_height, # height
-        gimpfu.CHANNEL_OP_SUBTRACT, # operation
+        offsets[0] + border_width, # x
+        offsets[1] + border_height, # y
+        drawable_width - 2 * border_width, # width
+        drawable_height - 2 * border_height, # height
+        GIMP.CHANNEL_OP_SUBTRACT, # operation
         True, # feather
-        int(round((border_width + border_height) / 2)) # feather_radius
+        round((border_width + border_height) / 2) # feather_radius
       )
-    pdb.plug_in_make_seamless(the_image, the_drawable)
+    pdb.plug_in_make_seamless(GIMP.RUN_NONINTERACTIVE, the_image, the_drawable)
     pdb.gimp_selection_none(the_image)
     pdb.gimp_image_undo_group_end(the_image)
 #end do_effect
 
-gimpfu.register \
+libgimp2.managed_procedures.plugin_install \
   (
-    proc_name = "python_fu_conservative_make_seamless",
+    name = "python_fu_conservative_make_seamless",
     blurb = "Conservative version of Make Seamless",
     help = "Works on the whole image (ignores selection).",
     author = "Lawrence D'Oliveiro",
     copyright = "©2010 by Lawrence D’Oliveiro",
-    date = "2010 December 26",
-    label = "Conservative Make Seamless",
-    imagetypes = "RGB*, GRAY*", # same as Make Seamless
-    params =
-        [
-            (gimpfu.PF_IMAGE, "image", "Input Image", None),
-            (gimpfu.PF_DRAWABLE, "drawable", "Input Drawable", None),
-        ],
-    results = [],
-    function = do_effect,
-    menu = "<Image>/Filters/Map",
+    date = "2022 May 29",
+    image_types = "RGB*, GRAY*", # same as Make Seamless
+    placement = libgimp2.UI_PLACEMENT.IMAGE,
+    params = [],
+    return_vals = None,
+    action = do_effect,
+    menu_name = "/Filters/Map",
+    item_label = "Conservative Make Seamless",
   )
-gimpfu.main()
+
+libgimp2.main()
