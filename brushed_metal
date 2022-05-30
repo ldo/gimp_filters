@@ -68,14 +68,14 @@ def do_effect(the_image, the_drawable) :
     pdb.gimp_image_undo_group_end(the_image)
 #end do_effect
 
-libgimp2.managed_procedures.plugin_install \
+libgimp2.plugin_install \
   (
     name = "python_fu_brushed_metal",
     blurb = "Generate a brushed-metal texture",
     help = "Generates a new image layer filled with the texture.",
     author = "Lawrence D'Oliveiro",
     copyright = "©2011 by Lawrence D’Oliveiro",
-    date = "2011 January 3",
+    date = "2022 May 30",
     image_types = "RGB*, GRAY*", # same as Gaussian blur
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,
