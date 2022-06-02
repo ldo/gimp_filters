@@ -16,21 +16,21 @@ from libgimp2 import \
     pdbpi
 
 def do_effect(the_image, the_drawable) :
-    pdb.gimp_image_undo_group_start(the_image)
+    pdb.gimp_image_undo_group_start(the_image.id)
     the_layer = pdb1.gimp_layer_new \
       (
-        the_image, # image
-        pdb1.gimp_drawable_width(the_drawable), # width
-        pdb1.gimp_drawable_height(the_drawable), # height
+        the_image.id, # image
+        pdb1.gimp_drawable_width(the_drawable.id), # width
+        pdb1.gimp_drawable_height(the_drawable.id), # height
         GIMP.RGB_IMAGE, # type
         "Brushed Metal", # name
         100, # opacity
         GIMP.LAYER_MODE_NORMAL # mode
       )
-    pdb.gimp_image_add_layer(the_image, the_layer, -1)
+    pdb.gimp_image_add_layer(the_image.id, the_layer, -1)
     pdbpi.plug_in_hsv_noise \
       (
-        the_image, # image
+        the_image.id, # image
         the_layer, # drawable
         1, # holdness
         0, # hue_distance
@@ -49,7 +49,7 @@ def do_effect(the_image, the_drawable) :
       )
     pdbpi.plug_in_mblur \
       (
-        the_image, # image
+        the_image.id, # image
         the_layer, # drawable
         0, # type = linear
         39, # length
@@ -59,13 +59,13 @@ def do_effect(the_image, the_drawable) :
       )
     pdbpi.plug_in_unsharp_mask \
       (
-        the_image, # image
+        the_image.id, # image
         the_layer, # drawable
         46, # radius
         1, # amount
         0 # threshold
       )
-    pdb.gimp_image_undo_group_end(the_image)
+    pdb.gimp_image_undo_group_end(the_image.id)
 #end do_effect
 
 libgimp2.plugin_install \
@@ -75,7 +75,7 @@ libgimp2.plugin_install \
     help = "Generates a new image layer filled with the texture.",
     author = "Lawrence D'Oliveiro",
     copyright = "©2011 by Lawrence D’Oliveiro",
-    date = "2022 May 30",
+    date = "2022 June 2",
     image_types = "RGB*, GRAY*", # same as Gaussian blur
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,

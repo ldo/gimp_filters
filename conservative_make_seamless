@@ -19,16 +19,16 @@ from libgimp2 import \
 
 def do_effect(the_image, the_drawable) :
     k = 0.15
-    drawable_width = pdb1.gimp_drawable_width(the_drawable)
-    drawable_height = pdb1.gimp_drawable_height(the_drawable)
+    drawable_width = pdb1.gimp_drawable_width(the_drawable.id)
+    drawable_height = pdb1.gimp_drawable_height(the_drawable.id)
     border_width = round(drawable_width * k)
     border_height = round(drawable_height * k)
-    offsets = pdb.gimp_drawable_offsets(the_drawable)
-    pdb.gimp_image_undo_group_start(the_image)
-    pdb.gimp_selection_all(the_image)
+    offsets = pdb.gimp_drawable_offsets(the_drawable.id)
+    pdb.gimp_image_undo_group_start(the_image.id)
+    pdb.gimp_selection_all(the_image.id)
     pdb.gimp_rect_select \
       (
-        the_image, # image
+        the_image.id, # image
         offsets[0], # x
         offsets[1], # y
         drawable_width, # width
@@ -39,7 +39,7 @@ def do_effect(the_image, the_drawable) :
       )
     pdb.gimp_rect_select \
       (
-        the_image, # image
+        the_image.id, # image
         offsets[0] + border_width, # x
         offsets[1] + border_height, # y
         drawable_width - 2 * border_width, # width
@@ -48,9 +48,9 @@ def do_effect(the_image, the_drawable) :
         True, # feather
         round((border_width + border_height) / 2) # feather_radius
       )
-    pdbpi.plug_in_make_seamless(the_image, the_drawable)
-    pdb.gimp_selection_none(the_image)
-    pdb.gimp_image_undo_group_end(the_image)
+    pdbpi.plug_in_make_seamless(the_image.id, the_drawable.id)
+    pdb.gimp_selection_none(the_image.id)
+    pdb.gimp_image_undo_group_end(the_image.id)
 #end do_effect
 
 libgimp2.plugin_install \
@@ -60,7 +60,7 @@ libgimp2.plugin_install \
     help = "Works on the whole image (ignores selection).",
     author = "Lawrence D'Oliveiro",
     copyright = "©2010 by Lawrence D’Oliveiro",
-    date = "2022 May 30",
+    date = "2022 June 2",
     image_types = "RGB*, GRAY*", # same as Make Seamless
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     params = [],
