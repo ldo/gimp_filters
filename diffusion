@@ -8,7 +8,7 @@
 # what you will.
 #-
 
-import libgimp2
+import libgimp2 as gimp
 from libgimp2 import \
     GIMP, \
     PARAMTYPE, \
@@ -27,7 +27,7 @@ def do_effect(the_image, drawable, blur_radius, opacity) :
     pdb.gimp_image_undo_group_end(the_image)
 #end do_effect
 
-libgimp2.plugin_install \
+gimp.plugin_install \
   (
     name = "python_fu_diffusion",
     blurb = "Effect of shooting through a diffusion filter",
@@ -36,7 +36,7 @@ libgimp2.plugin_install \
     copyright = "©2009 by Lawrence D’Oliveiro",
     date = "2022 June 3",
     image_types = "RGB*, GRAY*", # same as Gaussian blur
-    placement = libgimp2.UI_PLACEMENT.IMAGE,
+    placement = gimp.UI_PLACEMENT.IMAGE,
     action = do_effect,
     params =
         [
@@ -45,8 +45,8 @@ libgimp2.plugin_install \
                 "name" : "blur_radius",
                 "description" : "Blur radius",
                 "default" : 6.0,
-                "lower" : 1.0,
-                "upper" : 20,
+                "lower" : 0.0,
+                "upper" : 50,
             },
             {
                 "type" : PARAMTYPE.FLOAT,
@@ -55,6 +55,7 @@ libgimp2.plugin_install \
                 "default" : 40,
                 "lower" : 0,
                 "upper" : 100,
+                "entry_style" : gimp.ENTRYSTYLE.SLIDER,
             },
         ],
     returns = None,
@@ -62,4 +63,4 @@ libgimp2.plugin_install \
     item_label = "Diffusion...",
   )
 
-libgimp2.main()
+gimp.main()
