@@ -34,7 +34,7 @@ libgimp2.plugin_install \
     help = "Works on the whole image (ignores selection).",
     author = "Lawrence D'Oliveiro",
     copyright = "©2009 by Lawrence D’Oliveiro",
-    date = "2022 June 2",
+    date = "2022 June 3",
     image_types = "RGB*, GRAY*", # same as Gaussian blur
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,

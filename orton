@@ -43,7 +43,7 @@ libgimp2.plugin_install \
         " in the June 2009 issue of Australian “PC User” magazine.",
     author = "Lawrence D'Oliveiro",
     copyright = "©2009 by Lawrence D’Oliveiro",
-    date = "2022 June 2",
+    date = "2022 June 3",
     image_types = "RGB*, GRAY*", # same as Gaussian blur
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,
