@@ -63,9 +63,9 @@ libgimp2.plugin_install \
     date = "2022 June 2",
     image_types = "RGB*, GRAY*", # same as Make Seamless
     placement = libgimp2.UI_PLACEMENT.IMAGE,
-    params = [],
-    return_vals = None,
     action = do_effect,
+    params = None,
+    returns = None,
     menu_name = "/Filters/Map",
     item_label = "Conservative Make Seamless",
   )

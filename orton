@@ -58,7 +58,7 @@ libgimp2.plugin_install \
                 "upper" : 20.0,
             },
         ],
-    return_vals = None,
+    returns = None,
     menu_name = "/Filters/Blur",
     item_label = "Orton...",
   )

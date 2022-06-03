@@ -80,7 +80,7 @@ libgimp2.plugin_install \
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,
     params = None,
-    return_vals = None,
+    returns = None,
     item_label = "Brushed Metal",
     menu_name = "/Filters/Render",
   )
