@@ -18,12 +18,12 @@ from libgimp2 import \
 
 def do_effect(the_image, drawable, blur_radius, opacity) :
     pdb.gimp_image_undo_group_start(the_image)
-    the_layer = pdb1.gimp_layer_copy(pdb1.gimp_image_get_active_layer(the_image), False)
-    pdb.gimp_image_add_layer(the_image, the_layer, -1)
+    the_layer = pdb1.gimp_layer_copy(pdb1.gimp_image_get_active_layer(the_image), add_alpha = False)
+    pdb.gimp_image_add_layer(the_image, the_layer, position = -1)
     # pdb.gimp_layer_set_mode(the_layer, GIMP.LAYER_MODE_DISSOLVE)
-    pdbpi.plug_in_gauss_rle(the_image, the_layer, blur_radius, True, True)
+    pdbpi.plug_in_gauss_rle(the_image, the_layer, blur_radius, horizontal = True, vertical = True)
     pdb.gimp_layer_set_opacity(the_layer, opacity)
-    pdb.gimp_image_merge_down(the_image, the_layer, GIMP.CLIP_TO_BOTTOM_LAYER)
+    pdb.gimp_image_merge_down(the_image, the_layer, merge_type = GIMP.CLIP_TO_BOTTOM_LAYER)
     pdb.gimp_image_undo_group_end(the_image)
 #end do_effect
 
