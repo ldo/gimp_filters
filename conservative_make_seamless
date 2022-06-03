@@ -28,25 +28,25 @@ def do_effect(the_image, the_drawable) :
     pdb.gimp_selection_all(the_image)
     pdb.gimp_rect_select \
       (
-        the_image, # image
-        offsets[0], # x
-        offsets[1], # y
-        drawable_width, # width
-        drawable_height, # height
-        GIMP.CHANNEL_OP_REPLACE, # operation
-        False, # feather, unimportant
-        0 # feather_radius
+        image = the_image,
+        x = offsets[0],
+        y = offsets[1],
+        width = drawable_width,
+        height = drawable_height,
+        operation = GIMP.CHANNEL_OP_REPLACE,
+        feather = False, # unimportant
+        feather_radius = 0
       )
     pdb.gimp_rect_select \
       (
-        the_image, # image
-        offsets[0] + border_width, # x
-        offsets[1] + border_height, # y
-        drawable_width - 2 * border_width, # width
-        drawable_height - 2 * border_height, # height
-        GIMP.CHANNEL_OP_SUBTRACT, # operation
-        True, # feather
-        round((border_width + border_height) / 2) # feather_radius
+        image = the_image,
+        x = offsets[0] + border_width,
+        y = offsets[1] + border_height,
+        width = drawable_width - 2 * border_width,
+        height = drawable_height - 2 * border_height,
+        operation = GIMP.CHANNEL_OP_SUBTRACT,
+        feather = True,
+        feather_radius = round((border_width + border_height) / 2)
       )
     pdbpi.plug_in_make_seamless(the_image, the_drawable)
     pdb.gimp_selection_none(the_image)
