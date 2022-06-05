@@ -20,8 +20,8 @@ def do_effect(the_image, the_drawable) :
     the_layer = pdb1.gimp_layer_new \
       (
         image = the_image,
-        width = pdb1.gimp_drawable_width(the_drawable),
-        height = pdb1.gimp_drawable_height(the_drawable),
+        width = the_drawable.width,
+        height = the_drawable.height,
         type = GIMP.RGB_IMAGE,
         name = "Brushed Metal",
         opacity = 100,

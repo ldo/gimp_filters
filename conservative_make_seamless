@@ -14,13 +14,12 @@ import libgimp2
 from libgimp2 import \
     GIMP, \
     pdb, \
-    pdb1, \
     pdbpi
 
 def do_effect(the_image, the_drawable) :
     k = 0.15
-    drawable_width = pdb1.gimp_drawable_width(the_drawable)
-    drawable_height = pdb1.gimp_drawable_height(the_drawable)
+    drawable_width = the_drawable.width
+    drawable_height = the_drawable.height
     border_width = round(drawable_width * k)
     border_height = round(drawable_height * k)
     offsets = pdb.gimp_drawable_offsets(the_drawable)
