@@ -58,7 +58,6 @@ gimp.plugin_install \
                 "entry_style" : gimp.ENTRYSTYLE.SLIDER,
             },
         ],
-    returns = None,
     menu_name = "/Filters/Blur",
     item_label = "Diffusion...",
   )

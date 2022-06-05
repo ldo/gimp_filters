@@ -79,8 +79,6 @@ libgimp2.plugin_install \
     image_types = "RGB*, GRAY*", # same as Gaussian blur
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,
-    params = None,
-    returns = None,
     item_label = "Brushed Metal",
     menu_name = "/Filters/Render",
   )
