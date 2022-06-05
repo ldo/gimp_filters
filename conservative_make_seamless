@@ -59,7 +59,7 @@ libgimp2.plugin_install \
     help = "Works on the whole image (ignores selection).",
     author = "Lawrence D'Oliveiro",
     copyright = "©2010 by Lawrence D’Oliveiro",
-    date = "2022 June 3",
+    date = "2022 June 5",
     image_types = "RGB*, GRAY*", # same as Make Seamless
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,

@@ -27,7 +27,7 @@ def do_effect(the_image, the_drawable) :
         opacity = 100,
         mode = GIMP.LAYER_MODE_NORMAL
       )
-    pdb.gimp_image_add_layer(the_image, the_layer, -1)
+    pdb.gimp_image_add_layer(the_image, the_layer, position = -1)
     pdbpi.plug_in_hsv_noise \
       (
         image = the_image,
@@ -75,7 +75,7 @@ libgimp2.plugin_install \
     help = "Generates a new image layer filled with the texture.",
     author = "Lawrence D'Oliveiro",
     copyright = "©2011 by Lawrence D’Oliveiro",
-    date = "2022 June 3",
+    date = "2022 June 5",
     image_types = "RGB*, GRAY*", # same as Gaussian blur
     placement = libgimp2.UI_PLACEMENT.IMAGE,
     action = do_effect,
